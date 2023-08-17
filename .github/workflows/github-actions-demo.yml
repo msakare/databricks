@@ -1,32 +1,60 @@
-name: Databricks Code Security and Testing
+name: Databricks PR Checks
 
- on:
+on:
   pull_request:
-    branches:
-      - Release
+    types:
+      - opened
+      - synchronize
+
 jobs:
-  databricks_security_test:
+  databricks_checks:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Databricks CLI
-        uses: databrickslabs/action-databricks-cli@v0.3
+      - name: Setup Python
+        uses: actions/setup-python@v2
         with:
-          token: 'dapi8711a8744070fce1727d25073e59143f'
-          url: 'https://dbc-6da7fdf2-c478.cloud.databricks.com/?o=2953349993376470'
+          python-version: 3.x
 
-      - name: Upload code to Databricks workspace
-        run: databricks workspace import_dir /path/to/code /databricks/path
-
-      - name: Run code security scan
+      - name: Install dependencies
         run: |
-          databricks jobs create --json-file .databricks_security_job.json
-          # Replace with your security scanning command or Databricks job setup
+          python -m pip install --upgrade pip
+          pip install -r notebooks/requirements.txt
 
-      - name: Run JUnit Test Suite
+      - name: Run tests
         run: |
-          databricks jobs create --json-file .databricks_junit_job.json
-          # Replace with your JUnit test execution or Databricks job setup
+          pip install pytest
+          pytest tests/
+
+      - name: Run security scanning
+        run: |
+          pip install bandit
+          bandit -r notebooks/
+
+      - name: Generate reports
+        run: |
+          # Generate your reports here
+          python generate_report.py
+
+      - name: Upload reports as PR comment
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: path/to/your/reports
+
+      - name: Comment on PR with report link
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const reportLink = fs.readFileSync('path/to/your/report/link', 'utf8');
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Test and security scan reports: ${reportLink}`
+            });
