@@ -1,0 +1,32 @@
+name: Databricks Code Security and Testing
+
+ on:
+  pull_request:
+    branches:
+      - Release
+jobs:
+  databricks_security_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Databricks CLI
+        uses: databrickslabs/action-databricks-cli@v0.3
+        with:
+          token: 'dapi8711a8744070fce1727d25073e59143f'
+          url: 'https://dbc-6da7fdf2-c478.cloud.databricks.com/?o=2953349993376470'
+
+      - name: Upload code to Databricks workspace
+        run: databricks workspace import_dir /path/to/code /databricks/path
+
+      - name: Run code security scan
+        run: |
+          databricks jobs create --json-file .databricks_security_job.json
+          # Replace with your security scanning command or Databricks job setup
+
+      - name: Run JUnit Test Suite
+        run: |
+          databricks jobs create --json-file .databricks_junit_job.json
+          # Replace with your JUnit test execution or Databricks job setup
