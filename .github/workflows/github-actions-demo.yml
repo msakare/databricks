@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: reports
-          path: path/to/your/reports
+          path: pr/report
 
       - name: Comment on PR with report link
         uses: actions/github-script@v4
