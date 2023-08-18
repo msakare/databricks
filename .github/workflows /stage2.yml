@@ -2,3 +2,9 @@ name: Move to dev_repo
 
 on:
   pull_request:
+    types:
+      - closed
+
+jobs:
+  move_to_dev:
+    
