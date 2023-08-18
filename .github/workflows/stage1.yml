@@ -1,0 +1,79 @@
+name: PR Checks
+
+on:
+  pull_request:
+    # types:
+    #   - opened
+    #   - synchronize
+    branches: 
+        - Release
+
+jobs:
+  databricks_checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pip install pytest
+          pytest tests/
+
+      - name: Run security scanning
+        run: |
+          pip install bandit
+          bandit -r notebooks/ && pytest tests/
+
+      - name: Generate and Upload Artifacts
+        id: generate_reports
+        run: |
+          # python generate_report.py
+          #upload reports as artifacts
+          echo "Security scan results" > report.txt
+          bandit -r notebooks/ >> report.txt
+          echo "Test results:" >> report.txt
+          pytest tests/ >> report.txt
+
+      - name: Upload report artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: report.txt
+
+      # - name: Generate reports
+      #   run: |
+      #     # Generate your reports here
+      #     python generate_report.py
+
+      # - name: Upload reports as PR comment
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: reports
+      #     path: pr/
+
+      # - name: Comment on PR with report link
+      #   uses: actions/github-script@v4
+      #   with:
+      #     github-token: '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'
+      #     script: |
+      #       const fs = require('fs');
+      #       const reportLink = fs.readFileSync('pr/report/report.html', 'utf8');
+      #       github.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: `Test and security scan reports: ${reportLink}`
+      #       });
+      
