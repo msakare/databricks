@@ -32,7 +32,7 @@ jobs:
       - name: Run security scanning
         run: |
           pip install bandit
-          bandit -r notebooks/
+          bandit -r tests
 
       - name: Generate reports
         run: |
