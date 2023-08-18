@@ -1,15 +1,17 @@
 name: Clone Changes to Dev
 
 on:
-  workflow_run:
-    workflows: ["PR Checks"]
-    types:
-      - Completed
+  # workflow_run:
+  #   workflows: ["PR Checks"]
+  #   types:
+  #     - Completed
+    push:
+      branches: Release
 
 jobs: 
   clone_to_dev:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    # if: github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout code
