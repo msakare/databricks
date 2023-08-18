@@ -48,7 +48,7 @@ jobs:
       - name: Comment on PR with report link
         uses: actions/github-script@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: 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
           script: |
             const fs = require('fs');
             const reportLink = fs.readFileSync('pr/report/report.html', 'utf8');
