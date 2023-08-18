@@ -34,18 +34,32 @@ jobs:
       - name: Run security scanning
         run: |
           pip install bandit
-          bandit -r notebooks/
+          bandit -r notebooks/ && pytest tests/
 
-      - name: Generate reports
+      - name: Generate and Upload Artifacts
         run: |
-          # Generate your reports here
           python generate_report.py
+          #upload reports as artifacts
+          echo "Report Generated" > report.txt
+          mkdir -p $HOME/reports
+          mv report.txt $HOME/reports/
 
-      - name: Upload reports as PR comment
+      - name: Upload report artifacts
         uses: actions/upload-artifact@v2
         with:
           name: reports
-          path: pr/
+          path: $HOME/reports
+
+      # - name: Generate reports
+      #   run: |
+      #     # Generate your reports here
+      #     python generate_report.py
+
+      # - name: Upload reports as PR comment
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: reports
+      #     path: pr/
 
       # - name: Comment on PR with report link
       #   uses: actions/github-script@v4
