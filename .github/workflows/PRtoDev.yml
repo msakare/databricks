@@ -1,10 +1,12 @@
 name: Clone Changes to Dev
 
 on:
-  workflow_run:
-    workflows: ["PR Checks"]
-    types:
-      - Completed
+  # workflow_run:
+    # workflows: ["PR Checks"]
+    # types:
+    #   - Completed
+    push:
+    branches: Release
 
 jobs: 
   clone_to_dev:
