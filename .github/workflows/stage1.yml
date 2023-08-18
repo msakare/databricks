@@ -39,7 +39,7 @@ jobs:
       - name: Generate and Upload Artifacts
         id: generate_reports
         run: |
-          python generate_report.py
+          # python generate_report.py
           #upload reports as artifacts
           echo "Security scan results" > report.txt
           bandit -r notebooks/ >> report.txt
