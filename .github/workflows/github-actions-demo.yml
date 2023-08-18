@@ -27,7 +27,7 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest
-          pytest notebooks/
+          pytest tests
 
       - name: Run security scanning
         run: |
