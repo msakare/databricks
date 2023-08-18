@@ -2,9 +2,11 @@ name: Databricks PR Checks
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
+    # types:
+    #   - opened
+    #   - synchronize
+    branches: 
+        - Release
 
 jobs:
   databricks_checks:
@@ -45,16 +47,17 @@ jobs:
           name: reports
           path: pr/
 
-      - name: Comment on PR with report link
-        uses: actions/github-script@v4
-        with:
-          github-token: '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'
-          script: |
-            const fs = require('fs');
-            const reportLink = fs.readFileSync('pr/report/report.html', 'utf8');
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `Test and security scan reports: ${reportLink}`
-            });
+      # - name: Comment on PR with report link
+      #   uses: actions/github-script@v4
+      #   with:
+      #     github-token: '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'
+      #     script: |
+      #       const fs = require('fs');
+      #       const reportLink = fs.readFileSync('pr/report/report.html', 'utf8');
+      #       github.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: `Test and security scan reports: ${reportLink}`
+      #       });
+      
