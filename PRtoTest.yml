@@ -18,6 +18,6 @@ jobs:
       - name: Create pull request to test branch
         run: |
           git checkout Test
-          git pull origin Dev
+          git pull origin Release
           git push origin Test
    
