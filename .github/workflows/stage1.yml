@@ -41,7 +41,10 @@ jobs:
         run: |
           python generate_report.py
           #upload reports as artifacts
-          echo "Report Generated" > report.txt
+          echo "Security scan results" > report.txt
+          bandit -r notebooks/ >> report.txt
+          echo "Test results:" >> report.txt
+          pytest tests/ >> report.txt
 
       - name: Upload report artifacts
         uses: actions/upload-artifact@v2
