@@ -37,18 +37,17 @@ jobs:
           bandit -r notebooks/ && pytest tests/
 
       - name: Generate and Upload Artifacts
+        id: generate_reports
         run: |
           python generate_report.py
           #upload reports as artifacts
           echo "Report Generated" > report.txt
-          mkdir -p $HOME/reports
-          mv report.txt $HOME/reports/
 
       - name: Upload report artifacts
         uses: actions/upload-artifact@v2
         with:
           name: reports
-          path: $HOME/reports
+          path: report.txt
 
       # - name: Generate reports
       #   run: |
