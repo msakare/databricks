@@ -1,4 +1,4 @@
-name: Databricks PR Checks
+name: PR Checks
 
 on:
   pull_request:
