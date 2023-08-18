@@ -27,7 +27,7 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest
-          pytest tests
+          pytest notebooks/
 
       - name: Run security scanning
         run: |
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: reports
-          path: pr/report
+          path: pr/
 
       - name: Comment on PR with report link
         uses: actions/github-script@v4
