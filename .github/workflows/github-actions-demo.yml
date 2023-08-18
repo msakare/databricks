@@ -51,7 +51,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const reportLink = fs.readFileSync('path/to/your/report/link', 'utf8');
+            const reportLink = fs.readFileSync('pr/report/report.html', 'utf8');
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
