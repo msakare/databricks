@@ -20,6 +20,6 @@ jobs:
 
       - name: Create pull request to Clone changes to dev
         run: |
-          git checkout origin Dev
+          git checkout -b Dev
           git pull origin Release
           git push origin Dev
