@@ -5,8 +5,9 @@ on:
     # workflows: ["PR Checks"]
     # types:
     #   - Completed
-    push:
-    branches: Release
+    pull_request:
+      types: 
+        - Approved
 
 jobs: 
   clone_to_dev:
