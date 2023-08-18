@@ -22,6 +22,7 @@ jobs:
         run: |
           git checkout Release
           git pull origin Release
+          git fetch Dev
           git checkout Dev
           git merge Release
           git push origin Dev
