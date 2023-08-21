@@ -38,7 +38,7 @@ jobs:
           name: junit-test-report
           path: junit
 
-      - name: Run security scanning
+      - name: security_scan
         run: |
           pip install bandit
           bandit -r notebooks/ && pytest tests/  --output-path=security-scan
@@ -49,10 +49,10 @@ jobs:
           name: security-scan-report
           path: security-scan
           
-create_pull_request:
-    runs-on: ubuntu-latest
-    needs: security_scan
-    steps:
+  create_pull_request:
+      runs-on: ubuntu-latest
+      needs: security_scan
+      steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -66,24 +66,24 @@ create_pull_request:
             This pull request is automatically generated to trigger security scanning.
             Please review and merge if the checks pass.
 
-    attach_reports:
-      runs-on: ubuntu-latest
-      needs: create_pull_request
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v2
+      attach_reports:
+        runs-on: ubuntu-latest
+        needs: create_pull_request
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v2
 
-        - name: Download security scan report
-          uses: actions/download-artifact@v2
-          with:
+          - name: Download security scan report
+            uses: actions/download-artifact@v2
+            with:
               name: security-scan-report
               path: security-scan
 
-        - name: Attach security scan report to pull request
-          uses: actions/upload-artifact@v2
-          with:
-            name: attached-reports
-            path: security-scan
+          - name: Attach security scan report to pull request
+            uses: actions/upload-artifact@v2
+            with:
+              name: attached-reports
+              path: security-scan
 
       # - name: Generate and Upload Artifacts
       #   id: generate_reports
