@@ -76,7 +76,7 @@ jobs:
 
   attach_reports:
     runs-on: ubuntu-latest
-    # needs: create_pull_request
+    needs: databricks_checks
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
