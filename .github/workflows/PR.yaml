@@ -67,7 +67,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: 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
+          token: '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'
           branch: Release
           title: Automated PR:Security Scan
           body: |
