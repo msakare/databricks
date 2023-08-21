@@ -22,6 +22,16 @@ jobs:
           destination: 'msakare/databricks'
           branch: 'development'
 
+      - name: Copy Commit
+        uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}
+        with:
+          # include: 'hello,world?'
+          # exclude: '"world,"'
+          destination: 'msakare/databricks'
+          branch: 'test_repo'
+
     # steps:
       # - name: Set Git User Identity
       #   run: |
