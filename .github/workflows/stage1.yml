@@ -3,7 +3,7 @@ name: PR Checks
 on:
   push:
     branches: 
-        - Feature
+        - feature
 
 jobs:
   databricks_checks:
@@ -60,8 +60,8 @@ create_pull_request:
         uses: peter-evans/create-pull-request@v3
         with:
           token: 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
-          branch: Feature
-          title: Automated PR: Security Scan
+          branch: feature
+          title: Automated PR:Security Scan
           body: |
             This pull request is automatically generated to trigger security scanning.
             Please review and merge if the checks pass.
