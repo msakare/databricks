@@ -33,18 +33,18 @@ jobs:
           pytest --junitxml=junit/test-report.xml
 
       - name: Upload Junit test report
-        uses: actions/upload-artifacts
+        uses: 
         with:
           name: junit-test-report
           path: junit
 
       - name: security_scan
-        run: |
+        run: actions/upload-artifact@v3.1.2
           pip install bandit
           bandit -r notebooks/ && pytest tests/  --output-path=security-scan
 
       - name: security_scan
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: security_scan
           path: security-scan
@@ -54,7 +54,7 @@ jobs:
     needs: databricks_checks
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/upload-artifact@v3.1.2
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
@@ -80,7 +80,7 @@ jobs:
           path: security-scan
 
       - name: Attach security scan report to pull request
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: attached-reports
           path: security-scan
