@@ -46,13 +46,16 @@ jobs:
         run: |
           pip install bandit
           # bandit -r notebooks/ && pytest tests/
-          bandit -r notebooks/ && pytest tests/  --output-path=security-scan
+         
+          pip install pytest
+          bandit -r notebooks/
+          pytest tests/ --junitxml=junit/security-scan.xml
 
       - name: Upload security scan report
         uses: actions/upload-artifact@v3.1.2
         with:
           name: security-scan-report
-          path: security-scan
+          path: junit/security-scan.xml
 
   create_pull_request:
     runs-on: ubuntu-latest
@@ -82,7 +85,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: security-scan-report
-          path: security-scan
+          path: junit/security-scan.xml
 
       - name: Attach security scan report to pull request
         uses: actions/upload-artifact@v3.1.2
