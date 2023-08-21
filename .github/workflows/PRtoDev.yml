@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set Git User Identity
+        run: |
+          git config --global user.email "monika.sakare@capgemini.com"
+          git config --global user.name "Monika"
+          
       - name: Checkout repository
         uses: actions/checkout@v2
 
