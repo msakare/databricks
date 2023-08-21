@@ -17,6 +17,7 @@ jobs:
         run: |
           git checkout Release
           git pull origin Release
+          git fetch origin Dev:refs/remotes/origin/Dev  # Fetch Dev branch from remote
           git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
           git merge Release
           git push origin Dev
