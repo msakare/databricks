@@ -22,23 +22,23 @@ jobs:
         env:
           PAT: "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"
         run: |
-          # git checkout Release
-          # git pull origin Release
-          # git fetch origin Dev:refs/remotes/origin/Dev  # Fetch Dev branch from remote
-          # git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
-          # git merge Release --allow-unrelated-histories
-          # git merge Release
-          # # git -c user.name="github-actions[bot]" -c user.email="monika.sakare@capgemini.com" push origin Dev
-          # git push origin Dev
-          git remote add origin https://github.com/msakare/databricks.git
-          git config --global user.name 'msakare'
-          git config --global user.email 'monika.sakare@capgemini.com'
-          git fetch                         # fetch branches
-          git checkout Dev      # checkout to your branch
           git checkout Release
-          git add -A
-          git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
-          git push origin Dev # push to remote branch
+          git pull origin Release
+          git fetch origin Dev:refs/remotes/origin/Dev  # Fetch Dev branch from remote
+          git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
+          git merge Release --allow-unrelated-histories
+          git merge Release
+          # git -c user.name="github-actions[bot]" -c user.email="monika.sakare@capgemini.com" push origin Dev
+          git push origin Dev
+          # git remote add origin https://github.com/msakare/databricks.git
+          # git config --global user.name 'msakare'
+          # git config --global user.email 'monika.sakare@capgemini.com'
+          # git fetch                         # fetch branches
+          # git checkout Dev      # checkout to your branch
+          # git checkout Release
+          # git add -A
+          # git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
+          # git push origin Dev # push to remote branch
         
       - name: Install Databricks CLI
         run: pip install databricks-cli
