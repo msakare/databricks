@@ -45,7 +45,7 @@ jobs:
       - name: security_scan
         run: |
           pip install bandit
-          bandit -r notebooks/ && pytest tests/  --output-path=security-scan
+          bandit -r notebooks/ && pytest tests/
 
       - name: Upload security scan report
         uses: actions/upload-artifact@v3.1.2
