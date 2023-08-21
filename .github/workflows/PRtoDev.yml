@@ -1,31 +1,74 @@
-name: Clone Changes to Dev
+name: Clone Changes to Dev Repo
 
 on:
-  # workflow_run:
-    # workflows: ["PR Checks"]
-    # types:
-    #   - Completed
   push:
-    branches: 
-      - Release
+    branches:
+      - Release 
 
-jobs: 
-  clone_to_dev:
+jobs:
+  clone_to_dev_repo:
     runs-on: ubuntu-latest
-    # if: github.event.workflow_run.conclusion == 'success'
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Create pull request to Clone changes to dev
+      - name: Clone changes to dev_repo
         run: |
           git checkout Release
           git pull origin Release
-          git fetch Dev
-          git checkout Dev
-          git merge Release
+          git checkout Dev_repo
+          git merge Dev_repo
+
+          # Push changes to dev_repo on GitHub
           git push origin Dev
+
+      - name: Install Databricks CLI
+        run: pip install databricks-cli
+
+      # - name: Configure Databricks CLI
+      #   run: |
+      #     cat > ~/.databrickscfg << EOF
+      #     [DEFAULT]
+      #     host = ${{ secrets.DATABRICKS_DEV_REPO_URL }}
+      #     token = ${{ secrets.DATABRICKS_DEV_REPO_TOKEN }}
+      #     jobs-api-version = 2.1
+      #     EOF
+
+      # - name: Import code to Databricks dev_repo
+      #   run: |
+      #     databricks workspace import ${{ inputs.service_code_file }} ${{ inputs.databricks_code_path }} --language python --overwrite
+
+
+
+# name: Clone Changes to Dev
+
+# on:
+#   # workflow_run:
+#     # workflows: ["PR Checks"]
+#     # types:
+#     #   - Completed
+#   push:
+#     branches: 
+#       - Release
+
+# jobs: 
+#   clone_to_dev:
+#     runs-on: ubuntu-latest
+#     # if: github.event.workflow_run.conclusion == 'success'
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Create pull request to Clone changes to dev
+#         run: |
+#           git checkout Release
+#           git pull origin Release
+#           git fetch Dev
+#           git checkout Dev
+#           git merge Release
+#           git push origin Dev
           # git checkout Release
           # git pull origin Release
           # git checkout Dev
