@@ -30,6 +30,7 @@ jobs:
           # git merge Release
           # # git -c user.name="github-actions[bot]" -c user.email="monika.sakare@capgemini.com" push origin Dev
           # git push origin Dev
+          git remote add origin https://github.com/msakare/databricks.git
           git config --global user.name 'msakare'
           git config --global user.email 'monika.sakare@capgemini.com'
           git fetch                         # fetch branches
