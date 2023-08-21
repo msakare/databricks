@@ -1,7 +1,7 @@
 name: PR Checks
 
 on:
-  pull_request:
+  push:
     branches: 
         - Feature
 
@@ -30,28 +30,76 @@ jobs:
         run: |
           pip install pytest
           pytest tests/
+          pytest --junitxml=junit/test-report.xml
+
+      - name: Upload Junit test report
+        uses: actions/upload-artifacts@v2
+        with:
+          name: junit-test-report
+          path: junit
 
       - name: Run security scanning
         run: |
           pip install bandit
-          bandit -r notebooks/ && pytest tests/
+          bandit -r notebooks/ && pytest tests/  --output-path=security-scan
 
-
-      - name: Generate and Upload Artifacts
-        id: generate_reports
-        run: |
-          # python generate_report.py
-          #upload reports as artifacts
-          echo "Security scan results" > report.txt
-          bandit -r notebooks/ >> report.txt
-          echo "Test results:" >> report.txt
-          pytest tests/ >> report.txt
-
-      - name: Upload report artifacts
+      - name: Upload security scan report
         uses: actions/upload-artifact@v2
         with:
-          name: reports
-          path: report.txt
+          name: security-scan-report
+          path: security-scan
+          
+create_pull_request:
+    runs-on: ubuntu-latest
+    needs: security_scan
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: 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
+          branch: Feature
+          title: Automated PR: Security Scan
+          body: |
+            This pull request is automatically generated to trigger security scanning.
+            Please review and merge if the checks pass.
+
+  attach_reports:
+    runs-on: ubuntu-latest
+    needs: create_pull_request
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download security scan report
+        uses: actions/download-artifact@v2
+        with:
+          name: security-scan-report
+          path: security-scan
+
+      - name: Attach security scan report to pull request
+        uses: actions/upload-artifact@v2
+        with:
+          name: attached-reports
+          path: security-scan
+
+      # - name: Generate and Upload Artifacts
+      #   id: generate_reports
+      #   run: |
+      #     # python generate_report.py
+      #     #upload reports as artifacts
+      #     echo "Security scan results" > report.txt
+      #     bandit -r notebooks/ >> report.txt
+      #     echo "Test results:" >> report.txt
+      #     pytest tests/ >> report.txt
+
+      # - name: Upload report artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: reports
+      #     path: report.txt
 
       # - name: Generate reports
       #   run: |
