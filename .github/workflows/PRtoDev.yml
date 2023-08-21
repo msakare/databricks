@@ -20,7 +20,7 @@ jobs:
           # include: 'hello,world?'
           # exclude: '"world,"'
           destination: 'msakare/databricks'
-          branch: 'Dev'
+          branch: 'development'
 
     # steps:
       # - name: Set Git User Identity
