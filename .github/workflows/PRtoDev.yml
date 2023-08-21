@@ -13,7 +13,7 @@ jobs:
       - name: Copy To Branches Action
         uses: planetoftheweb/copy-to-branches@v1
         env:
-          key: main
+          key: Release
           branches: Dev
 
     # steps:
