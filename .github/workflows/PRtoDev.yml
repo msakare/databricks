@@ -27,7 +27,9 @@ jobs:
           git merge Release --allow-unrelated-histories
           git merge Release
           git push origin Dev
-
+      env:
+        PAT: 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
+        
       - name: Install Databricks CLI
         run: pip install databricks-cli
 
