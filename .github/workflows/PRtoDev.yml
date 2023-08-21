@@ -19,6 +19,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Clone changes to dev_repo
+        env:
+          PAT: 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
         run: |
           git checkout Release
           git pull origin Release
@@ -27,8 +29,6 @@ jobs:
           git merge Release --allow-unrelated-histories
           git merge Release
           git push origin Dev
-      env:
-        PAT: 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
         
       - name: Install Databricks CLI
         run: pip install databricks-cli
