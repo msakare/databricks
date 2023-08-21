@@ -18,30 +18,39 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Clone changes to dev_repo
-        env:
-          PAT: ${{ secrets.PAT_TOKEN }}
-        run: |
-          git checkout Release
-          git pull origin Release
-          git fetch origin Dev:refs/remotes/origin/Dev  # Fetch Dev branch from remote
-          git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
-          git merge Release --allow-unrelated-histories
-          git merge Release
-          git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" push origin Dev
-          git push origin Dev
-          # git remote add origin https://github.com/msakare/databricks.git
-          # git config --global user.name 'msakare'
-          # git config --global user.email 'monika.sakare@capgemini.com'
-          # git fetch                         # fetch branches
-          # git checkout Dev      # checkout to your branch
-          # git checkout Release
-          # git add -A
-          # git diff-index --quiet HEAD ||  git commit -am "deploy files"  # commit to the repository (ignore if no modification)
-          # git push origin Dev # push to remote branch
+      - name: Copy To Branches
+        on:
+          workflow_dispatch:
+        jobs:
+          copy-to-branches:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@v2
+                with:
+                  fetch-depth: 0
+              - name: Copy To Branches Action
+                uses: planetoftheweb/copy-to-branches@v1
+                env:
+                  key: Release
+                  # exclude: work 99_target
+                  # files: README.md
+
+      # - name: Clone changes to dev_repo
+      #   env:
+      #     PAT: ${{ secrets.PAT_TOKEN }}
+      #   run: |
+      #     git checkout Release
+      #     git pull origin Release
+      #     git fetch origin Dev:refs/remotes/origin/Dev  # Fetch Dev branch from remote
+      #     git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
+      #     git merge Release --allow-unrelated-histories
+      #     git merge Release
+      #     git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" push origin Dev
+      #     git push origin Dev
+
         
-      - name: Install Databricks CLI
-        run: pip install databricks-cli
+      # - name: Install Databricks CLI
+      #   run: pip install databricks-cli
 
       # - name: Configure Databricks CLI
       #   run: |
