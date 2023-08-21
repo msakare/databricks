@@ -57,22 +57,22 @@ jobs:
           name: security-scan-report
           path: junit/security-scan.xml
 
-  create_pull_request:
-    runs-on: ubuntu-latest
-    needs: databricks_checks
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  # create_pull_request:
+  #   runs-on: ubuntu-latest
+  #   needs: databricks_checks
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: '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'
-          branch: Release
-          title: Automated PR:Security Scan
-          body: |
-            This pull request is automatically generated to trigger security scanning.
-            Please review and merge if the checks pass.
+  #     - name: Create pull request
+  #       uses: peter-evans/create-pull-request@v3
+  #       with:
+  #         token: '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'
+  #         branch: Release
+  #         title: Automated PR:Security Scan
+  #         body: |
+  #           This pull request is automatically generated to trigger security scanning.
+  #           Please review and merge if the checks pass.
 
   attach_reports:
     runs-on: ubuntu-latest
