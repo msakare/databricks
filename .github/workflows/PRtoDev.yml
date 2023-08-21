@@ -28,6 +28,7 @@ jobs:
           git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
           git merge Release --allow-unrelated-histories
           git merge Release
+          git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" push origin Dev
           git push origin Dev
         
       - name: Install Databricks CLI
