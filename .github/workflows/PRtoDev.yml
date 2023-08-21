@@ -17,9 +17,8 @@ jobs:
         run: |
           git checkout Release
           git pull origin Release
-          git checkout Dev_repo
-          git merge Dev_repo
-
+          git checkout Dev
+          git merge Dev
           # Push changes to dev_repo on GitHub
           git push origin Dev
 
