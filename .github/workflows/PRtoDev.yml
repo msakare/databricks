@@ -13,14 +13,14 @@ jobs:
       - name: Set Git User Identity
         run: |
           git config --global user.email "monika.sakare@capgemini.com"
-          git config --global user.name "Monika"
+          git config --global user.name "msakare"
           
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Clone changes to dev_repo
         env:
-          PAT: "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"
+          PAT: ${{ secrets.PAT_TOKEN }}
         run: |
           git checkout Release
           git pull origin Release
