@@ -1,39 +1,28 @@
-name: Clone Changes to Dev Repo
-
+name: Copy To Branches
 on:
-  push:
-    branches:
-      - Release 
-
+  workflow_dispatch:
 jobs:
-  clone_to_dev_repo:
+  copy-to-branches:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Set Git User Identity
-        run: |
-          git config --global user.email "monika.sakare@capgemini.com"
-          git config --global user.name "Monika"
-          
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Copy To Branches Action
+        uses: planetoftheweb/copy-to-branches@v1
+        env:
+          key: main
+          branches: Dev
 
-      - name: Copy To Branches
-        on:
-          workflow_dispatch:
-        jobs:
-          copy-to-branches:
-            runs-on: ubuntu-latest
-            steps:
-              - uses: actions/checkout@v2
-                with:
-                  fetch-depth: 0
-              - name: Copy To Branches Action
-                uses: planetoftheweb/copy-to-branches@v1
-                env:
-                  key: Release
-                  # exclude: work 99_target
-                  # files: README.md
+    # steps:
+      # - name: Set Git User Identity
+      #   run: |
+      #     git config --global user.email "monika.sakare@capgemini.com"
+      #     git config --global user.name "Monika"
+          
+      # - name: Checkout repository
+      #   uses: actions/checkout@v2
+
 
       # - name: Clone changes to dev_repo
       #   env:
