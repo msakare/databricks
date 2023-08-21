@@ -3,18 +3,24 @@ on:
   push:
     branches:
       - Release
+
 jobs:
-  copy-to-branches:
+  copy-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-      - name: Copy To Branches Action
-        uses: planetoftheweb/copy-to-branches@v1
+          fetch-depth: 2
+      - name: Copy Commit
+        uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
         env:
-          key: Release
-          branches: Dev
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}
+        with:
+          # include: 'hello,world?'
+          # exclude: '"world,"'
+          # destination: 'jeffreyc/hello-copy'
+          branch: 'Dev'
 
     # steps:
       # - name: Set Git User Identity
