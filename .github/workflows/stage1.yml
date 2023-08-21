@@ -1,9 +1,12 @@
 name: PR Checks
 
 on:
-  push:
-    branches:
-      - feature
+  # push:
+  #   branches:
+  #     - feature
+  pull_request_target:
+    branches: 
+        - Release
 
 jobs:
   databricks_checks:
