@@ -17,9 +17,8 @@ jobs:
         run: |
           git checkout Release
           git pull origin Release
-          git checkout Dev
-          git merge Dev
-          # Push changes to dev_repo on GitHub
+          git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
+          git merge Release
           git push origin Dev
 
       - name: Install Databricks CLI
