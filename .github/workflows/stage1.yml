@@ -65,8 +65,9 @@ jobs:
       - name: Download test and scan reports
         uses: actions/download-artifact@v2
         with:
-          name: junit-and-security-scan-reports
+          name: junit-test-report,security-scan-report
           path: reports
+          
   
       - name: Attach reports to pull request
         run: python attach_reports.py ${{ secrets.PAT_TOKEN }}
