@@ -51,18 +51,6 @@ jobs:
           name: security-scan-report
           path: junit/security-scan-report.xml
 
-      - name: Upload test and scan reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: junit-and-security-scan-reports
-          path: junit/test-report.xml,junit/security-scan-report.xml
-
-      - name: Download test and scan reports
-        uses: actions/download-artifact@v2
-        with:
-          name: junit-and-security-scan-reports
-          path: reports
-
       - name: Create Pull Request
         run: python create_pull_request.py ${{ secrets.PAT_TOKEN }}
 
@@ -76,7 +64,7 @@ jobs:
       - name: Download test and scan reports
         uses: actions/download-artifact@v2
         with:
-          name: junit-test-report,security-scan-report
+          name: junit-test-report
           path: reports
           
   
