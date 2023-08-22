@@ -1,0 +1,109 @@
+name: Copy To Branches
+on:
+  push:
+    branches:
+      - Release
+#testrun
+jobs:
+  copy-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Copy Commit
+        uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}
+        with:
+          # include: 'hello,world?'
+          # exclude: '"world,"'
+          destination: 'msakare/databricks'
+          branch: 'development'
+
+      - name: Copy Commit
+        uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}
+        with:
+          # include: 'hello,world?'
+          # exclude: '"world,"'
+          destination: 'msakare/databricks'
+          branch: 'test_repo'
+
+    # steps:
+      # - name: Set Git User Identity
+      #   run: |
+      #     git config --global user.email "monika.sakare@capgemini.com"
+      #     git config --global user.name "Monika"
+          
+      # - name: Checkout repository
+      #   uses: actions/checkout@v2
+
+
+      # - name: Clone changes to dev_repo
+      #   env:
+      #     PAT: ${{ secrets.PAT_TOKEN }}
+      #   run: |
+      #     git checkout Release
+      #     git pull origin Release
+      #     git fetch origin Dev:refs/remotes/origin/Dev  # Fetch Dev branch from remote
+      #     git checkout -b Dev origin/Dev  # Create and switch to Dev branch from remote
+      #     git merge Release --allow-unrelated-histories
+      #     git merge Release
+      #     git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" push origin Dev
+      #     git push origin Dev
+
+        
+      # - name: Install Databricks CLI
+      #   run: pip install databricks-cli
+
+      # - name: Configure Databricks CLI
+      #   run: |
+      #     cat > ~/.databrickscfg << EOF
+      #     [DEFAULT]
+      #     host = ${{ secrets.DATABRICKS_DEV_REPO_URL }}
+      #     token = ${{ secrets.DATABRICKS_DEV_REPO_TOKEN }}
+      #     jobs-api-version = 2.1
+      #     EOF
+
+      # - name: Import code to Databricks dev_repo
+      #   run: |
+      #     databricks workspace import ${{ inputs.service_code_file }} ${{ inputs.databricks_code_path }} --language python --overwrite
+
+
+
+# name: Clone Changes to Dev
+
+# on:
+#   # workflow_run:
+#     # workflows: ["PR Checks"]
+#     # types:
+#     #   - Completed
+#   push:
+#     branches: 
+#       - Release
+
+# jobs: 
+#   clone_to_dev:
+#     runs-on: ubuntu-latest
+#     # if: github.event.workflow_run.conclusion == 'success'
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Create pull request to Clone changes to dev
+#         run: |
+#           git checkout Release
+#           git pull origin Release
+#           git fetch Dev
+#           git checkout Dev
+#           git merge Release
+#           git push origin Dev
+          # git checkout Release
+          # git pull origin Release
+          # git checkout Dev
+          # git merge --no-ff --no-edit Release
+          # git push origin Dev

@@ -1,0 +1,23 @@
+name: Pull Request to Test Branch
+
+on:
+  workflow_run:
+    workflows: ["Clone Changes to Dev"]
+    types:
+      - completed
+
+jobs:
+  pull_request_to_test:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      -  name: Checkout code
+         uses: actions/checkout@v2
+
+      - name: Create pull request to test branch
+        run: |
+          git checkout Test
+          git pull origin Release
+          git push origin Test
+   
