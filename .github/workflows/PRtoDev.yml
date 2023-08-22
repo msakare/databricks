@@ -1,4 +1,4 @@
-name: Copy To Branches
+name: Copy To dev Branches
 on:
   push:
     branches:
@@ -32,34 +32,5 @@ jobs:
           destination: 'msakare/databricks'
           branch: 'dev_repo'
 
-
-# name: Copy To Branches
-
-# on:
-#   push:
-#     branches:
-#       - Release
-
-# jobs:
-#   copy-changes:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout source repository
-#         uses: actions/checkout@v2
-
-#       - name: Apply changes to development
-#         run: |
-#           git checkout development
-#           git merge Release --no-commit  # Merge changes from Release without committing
-#           git commit -am "Merge changes from Release into development"
-#           git push origin development
-
-#       - name: Apply changes to test_repo
-#         run: |
-#           git checkout test_repo
-#           git merge Release --no-commit  # Merge changes from Release without committing
-#           git commit -am "Merge changes from Release into test_repo"
-#           git push origin test_repo
 
 
