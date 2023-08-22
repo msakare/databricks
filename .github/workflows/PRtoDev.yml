@@ -30,7 +30,7 @@ jobs:
           # include: 'hello,world?'
           # exclude: '"world,"'
           destination: 'msakare/databricks'
-          branch: 'test_repo'
+          branch: 'dev_repo'
 
 
 # name: Copy To Branches
