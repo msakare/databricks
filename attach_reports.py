@@ -4,13 +4,13 @@ from github import Github
 def attach_reports(token):
     g = Github(token)
     repo = g.get_repo("msakare/databricks")
-    pr_number = 11  # Replace with the actual PR number
+    pr_number = 16  # Replace with the actual PR number
 
     comment = """
     **JUnit Test Report:**\n
-    [Download JUnit Report](https://github.com/your-username/your-repo/actions/artifacts/123/junit)\n
+    [Download JUnit Report](https://github.com/msakare/databricks/actions/artifacts/16/junit)\n
     **Security Scan Report:**\n
-    [Download Security Scan Report](https://github.com/your-username/your-repo/actions/artifacts/123/security-scan)
+    [Download Security Scan Report](https://github.com/msakare/databricks/actions/artifacts/16/security-scan)
     """
 
     pull_request = repo.get_pull(pr_number)
