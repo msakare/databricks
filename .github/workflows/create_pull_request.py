@@ -1,4 +1,3 @@
-
 import os
 from github import Github
 
@@ -18,7 +17,7 @@ def create_pull_request(token):
         base=base,
         head=head,
     )
-test
+
     # Add reviewers to the pull request (GitHub usernames or team names)
     reviewers = ["pankajadas", "yashuonfire"]
     pull_request.create_review_request(reviewers=reviewers)
@@ -31,4 +30,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     pat_token = sys.argv[1]
-#     create_pull_request(pat_token)
+    create_pull_request(pat_token)
