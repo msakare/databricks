@@ -72,7 +72,10 @@ jobs:
           # Create the pull request using GitHub API
       - name: Create Pull Request
         run: |
-          python create_pull_request.py ${{ secrets.PAT_TOKEN }}
+          python create_pull_request_comment.py ${{ secrets.PAT_TOKEN }}
+        env:
+          JUNIT_REPORT: ${{ steps.databricks_checks.outputs.junit-report }}
+          SECURITY_SCAN_REPORT: ${{ steps.databricks_checks.outputs.security-scan-report }
 
   attach_reports:
     runs-on: ubuntu-latest
