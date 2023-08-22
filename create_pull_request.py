@@ -1,43 +1,33 @@
 import os
-import requests
 from github import Github
 
-# GitHub access token
-access_token = os.environ.get('GITHUB_TOKEN')
+def create_pull_request(token):
+    g = Github(token)
+    repo = g.get_repo("msakare/databricks")
 
-# Repository information
-repo_owner = 'msakare'
-repo_name = 'databricks'
-pr_number = 11  # Replace with the actual PR number
+    base = "feature"  # The base branch you want to create the pull request against
+    head = "Release"  # The source branch of the pull request
+    title = "Automated PR: SecurityScan"
+    body = "This pull request is automatically generated to trigger security scanning."
 
-# Read JUnit and security scan reports
-junit_report = open('junit/test-report.xml', 'r').read()
-security_scan_report = open('junit/security-scan-report.xml', 'r').read()
-
-
-    comment = (
-        "**JUnit Test Report:**\n\n"
-        + junit_report
-        + "\n\n"
-        "**Security Scan Report:**\n\n"
-        + security_scan_report
+    # Create the pull request
+    pull_request = repo.create_pull(
+        title=title,
+        body=body,
+        base=base,
+        head=head,
     )
 
-    # Create the pull request comment
-    pull_request = repo.get_pull(pr_number)
-    pull_request.create_issue_comment(comment)
+    # Add reviewers to the pull request (GitHub usernames or team names)
+    reviewers = ["pankajadas", "yashuonfire"]
+    pull_request.create_review_request(reviewers=reviewers)
 
 if __name__ == "__main__":
     import sys
 
-    if len(sys.argv) != 5:
-        print("Usage: python create_pull_request_comment.py <PAT_TOKEN> <PR_NUMBER> <JUNIT_REPORT_PATH> <SECURITY_SCAN_REPORT_PATH>")
+    if len(sys.argv) != 2:
+        print("Usage: python create_pull_request.py <PAT_TOKEN>")
         sys.exit(1)
 
     pat_token = sys.argv[1]
-    pr_number = int(sys.argv[2])
-    junit_report_path = sys.argv[3]
-    security_scan_report_path = sys.argv[4]
-
-    create_pull_request_comment(pat_token, pr_number, junit_report_path, security_scan_report_path)
-
+    create_pull_request(pat_token)
