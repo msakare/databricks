@@ -27,21 +27,29 @@ jobs:
           pip install -r requirements.txt
           pip install PyGithub
 
-      # Run JUnit tests and security scan
-      - name: Run tests and scan
+
+      - name: Run Junit tests
         run: |
           pip install pytest
-          pip install bandit
           pytest tests/
           pytest --junitxml=junit/test-report.xml
-          bandit -r notebooks/
-          pytest tests/ --junitxml=security-scan/security-scan-report.xml
-          
-      - name: Upload test and scan reports
+
+      - name: Upload Junit test report
         uses: actions/upload-artifact@v2
         with:
-          name: junit-and-security-scan-reports
-          path: junit/test-report.xml,security-scan/security-scan-report.xml
+          name: junit-test-report
+          path: junit/test-report.xml
+
+      - name: Run security scan
+        run: |
+          pip install bandit
+          bandit -r notebooks/ && pytest tests/ --junitxml=junit/security-scan-report.xml
+
+      - name: Upload security scan results
+        uses: actions/upload-artifact@v2
+        with:
+          name: security-scan-report
+          path: junit/security-scan-report.xml
 
 
       - name: Create Pull Request
@@ -59,10 +67,10 @@ jobs:
         with:
           name: junit-and-security-scan-reports
           path: reports
+  
       - name: Attach reports to pull request
         run: python attach_reports.py ${{ secrets.PAT_TOKEN }}
-
-      # Make changes to pull request here
+        # Make changes to pull request here
 
 
     # - name: Create Pull Request
