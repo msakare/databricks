@@ -1,31 +1,20 @@
+import os
+import requests
 from github import Github
 
-def create_pull_request(token):
-    g = Github(token)
-    repo = g.get_repo("msakare/databricks")
+# GitHub access token
+access_token = os.environ.get('GITHUB_TOKEN')
 
-    base = "feature"  # The base branch you want to create the pull request against
-    head = "Release"  # The source branch of the pull request
-    title = "Automated PR: SecurityScan"
-    body = "This pull request is automatically generated to trigger security scanning."
+# Repository information
+repo_owner = 'msakare'
+repo_name = 'databricks'
+pr_number = 11  # Replace with the actual PR number
 
-    pull_request = repo.create_pull(
-        title=title,
-        body=body,
-        base=base,
-        head=head,
-    )
+# Read JUnit and security scan reports
+junit_report = open('junit/test-report.xml', 'r').read()
+security_scan_report = open('junit/security-scan-report.xml', 'r').read()
 
-    # Add reviewers to the pull request (GitHub usernames or team names)
-    reviewers = ["pankajadas", "yashuonfire"]
-    pull_request.create_review_request(reviewers=reviewers)
+# Comment body
+comment = f"""
+**JUnit Test Report:**
 
-if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) != 2:
-        print("Usage: python create_pull_request.py <PAT_TOKEN>")
-        sys.exit(1)
-
-    pat_token = sys.argv[1]
-    create_pull_request(pat_token)
