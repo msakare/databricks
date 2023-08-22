@@ -35,13 +35,14 @@ jobs:
           pytest tests/
           pytest --junitxml=junit/test-report.xml
           bandit -r notebooks/
-          pytest tests/ --junitxml=junit/security-scan-report.xml
+          pytest tests/ --junitxml=security-scan/security-scan-report.xml
           
       - name: Upload test and scan reports
         uses: actions/upload-artifact@v2
         with:
           name: junit-and-security-scan-reports
-          path: /home/runner/work/databricks/databricks/junit/test-report.xml,/home/runner/work/databricks/databricks/junit/security-scan-report.xml
+          path: junit/test-report.xml,security-scan/security-scan-report.xml
+
 
       - name: Create Pull Request
         run: python create_pull_request.py ${{ secrets.PAT_TOKEN }}
@@ -57,8 +58,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: junit-and-security-scan-reports
-          path: /home/runner/work/databricks/databricks/junit/test-report.xml,/home/runner/work/databricks/databricks/junit/security-scan-report.xml
-
+          path: reports
       - name: Attach reports to pull request
         run: python attach_reports.py ${{ secrets.PAT_TOKEN }}
 
