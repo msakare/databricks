@@ -8,7 +8,7 @@ def create_pull_request(token, base_branch, feature_branch, title, body):
     base = Release
     head = feature
 
-    pull_request = repo.create_pull(title=title, body=body, base=base.name, head=head)
+    pull_request = repo.create_pull(title=title, body=body, base=base, head=head)
 
     return pull_request
 
