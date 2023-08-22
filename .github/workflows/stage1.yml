@@ -1,10 +1,9 @@
 name: PR Checks
 
 on:
-  pull_request_target:
-    branches: 
-        - Release
-
+  push:
+    branches:
+      - feature
 jobs:
   databricks_checks:
     runs-on: ubuntu-latest
@@ -33,20 +32,20 @@ jobs:
           pytest --junitxml=junit/test-report.xml
 
       - name: Upload Junit test report
-        uses: 
+        uses: actions/upload-artifact@v2
         with:
           name: junit-test-report
           path: junit
 
-      - name: security_scan
-        run: actions/upload-artifact@v3.1.2
+      - name: Run security scan
+        run: |
           pip install bandit
-          bandit -r notebooks/ && pytest tests/  --output-path=security-scan
+          bandit -r notebooks/ && pytest tests/ --output-path=security-scan
 
-      - name: security_scan
-        uses: actions/upload-artifact@v3.1.2
+      - name: Upload security scan results
+        uses: actions/upload-artifact@v2
         with:
-          name: security_scan
+          name: security-scan
           path: security-scan
 
   create_pull_request:
@@ -54,14 +53,14 @@ jobs:
     needs: databricks_checks
     steps:
       - name: Checkout repository
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/checkout@v2
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT_TOKEN }}
           branch: feature
-          title: Automated PR:Security Scan
+          title: Automated PR: SecurityScan
           body: |
             This pull request is automatically generated to trigger security scanning.
             Please review and merge if the checks pass.
@@ -76,14 +75,15 @@ jobs:
       - name: Download security scan report
         uses: actions/download-artifact@v2
         with:
-          name: security-scan-report
+          name: security-scan
           path: security-scan
 
       - name: Attach security scan report to pull request
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v2
         with:
           name: attached-reports
           path: security-scan
+
 
     # - name: Generate and Upload Artifacts
     #   id: generate_reports
