@@ -1,4 +1,5 @@
 PyGithub
 pytest
 bandit
+github
 
