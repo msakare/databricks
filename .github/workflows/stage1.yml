@@ -73,7 +73,7 @@ jobs:
           path: reports
           
       - name: Attach Reports
-        run: python attach_reports.py ${{ secrets.PAT_TOKEN }} "Your comment here"
+        run: python attach_reports.py ${{ secrets.PAT_TOKEN }}
 
 
 
