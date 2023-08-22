@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: junit-and-security-scan-reports
-          path: junit/test-report.xml,junit/security-scan-report.xml
+          path: /home/runner/work/databricks/databricks/junit/test-report.xml,/home/runner/work/databricks/databricks/junit/security-scan-report.xml
 
       - name: Create Pull Request
         run: python create_pull_request.py ${{ secrets.PAT_TOKEN }}
@@ -57,7 +57,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: junit-and-security-scan-reports
-          path: reports
+          path: /home/runner/work/databricks/databricks/junit/test-report.xml,/home/runner/work/databricks/databricks/junit/security-scan-report.xml
 
       - name: Attach reports to pull request
         run: python attach_reports.py ${{ secrets.PAT_TOKEN }}
