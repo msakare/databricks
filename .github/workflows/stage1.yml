@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature
+
 jobs:
   databricks_checks:
     runs-on: ubuntu-latest
@@ -83,6 +84,7 @@ jobs:
         with:
           name: attached-reports
           path: security-scan
+
 
 
     # - name: Generate and Upload Artifacts
