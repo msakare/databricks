@@ -6,7 +6,7 @@ def create_pull_request(token, base_branch, feature_branch, title, body):
     repo = g.get_repo("msakare/databricks")  
 
     base = feature
-    head = Release
+    head = feature2
 
     pull_request = repo.create_pull(title=title, body=body, base=base, head=head)
 
