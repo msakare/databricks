@@ -21,7 +21,7 @@ jobs:
           # include: 'hello,world?'
           # exclude: '"world,"'
           destination: 'msakare/databricks'
-          branch: 'dev_repo'
+          branch: 'dev'
 
       # - name: Copy Commit
       #   uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
