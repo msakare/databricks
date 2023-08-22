@@ -72,10 +72,9 @@ jobs:
           name: junit-test-report
           path: reports
           
-  
-      - name: Attach reports to pull request
-        run: python attach_reports.py ${{ secrets.PAT_TOKEN }}
-        # Make changes to pull request here
+      - name: Attach Reports
+        run: python attach_reports.py ${{ secrets.PAT_TOKEN }} "Your comment here"
+
 
 
     # - name: Create Pull Request
