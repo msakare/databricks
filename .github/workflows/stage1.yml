@@ -57,14 +57,17 @@ jobs:
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          branch: Release
-          body: |
-            This pull request is automatically generated to trigger security scanning.
-            Please review and merge if the checks pass.
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
+        branch: Release
+        title: Automated PR: SecurityScan
+        body: |
+          This pull request is automatically generated to trigger security scanning.
+          Please review and merge if the checks pass.
+        reviewers: pankajadas, yashuonfire
 
   attach_reports:
     runs-on: ubuntu-latest
