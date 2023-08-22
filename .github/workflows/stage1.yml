@@ -70,9 +70,9 @@ jobs:
     #       Please review and merge if the checks pass.
     #     reviewers: pankajadas, yashuonfire
           # Create the pull request using GitHub API
-      - name: Create Pull Request
+      - name: Create Pull Request comment
         run: |
-          python create_pull_request_comment.py ${{ secrets.PAT_TOKEN }}
+          python create_pull_request.py ${{ secrets.PAT_TOKEN }}
         env:
           JUNIT_REPORT: ${{ steps.databricks_checks.outputs.junit-report }}
           SECURITY_SCAN_REPORT: ${{ steps.databricks_checks.outputs.security-scan-report }}
