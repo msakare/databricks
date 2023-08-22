@@ -15,6 +15,6 @@ junit_report = open('junit/test-report.xml', 'r').read()
 security_scan_report = open('junit/security-scan-report.xml', 'r').read()
 
 # Comment body
-comment = f"""
+comment = updatedreport
 **JUnit Test Report:**
 
