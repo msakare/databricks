@@ -61,7 +61,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          branch: feature
+          branch: Release
           body: |
             This pull request is automatically generated to trigger security scanning.
             Please review and merge if the checks pass.
