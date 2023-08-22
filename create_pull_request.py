@@ -15,16 +15,13 @@ junit_report = open('junit/test-report.xml', 'r').read()
 security_scan_report = open('junit/security-scan-report.xml', 'r').read()
 
 
-    # Comment body
-    comment = f"""
-    **JUnit Test Report:**
-
-    {junit_report}
-
-    **Security Scan Report:**
-
-    {security_scan_report}
-    """
+    comment = (
+        "**JUnit Test Report:**\n\n"
+        + junit_report
+        + "\n\n"
+        "**Security Scan Report:**\n\n"
+        + security_scan_report
+    )
 
     # Create the pull request comment
     pull_request = repo.get_pull(pr_number)
