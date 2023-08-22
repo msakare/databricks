@@ -34,42 +34,32 @@
 
 
 name: Copy To Branches
+
 on:
   push:
     branches:
       - Release
 
 jobs:
-  copy-commit:
+  copy-changes:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source repository
         uses: actions/checkout@v2
-        with:
-          ref: Release  # Specify the branch to copy from
-          repository: msakare/databricks  # Specify the source repository
 
-      - name: Clone destination repositories
+      - name: Apply changes to development
         run: |
-          git clone https://github.com/msakare/development.git
-          git clone https://github.com/msakare/test_repo.git
-
-      - name: Apply changes and push to development
-        run: |
-          cd development
           git checkout development
-          cp -r ../databricks/* .  # Copy the changes from source repository
-          git add .
-          git commit -m "Copy changes from Release"
+          git merge Release --no-commit  # Merge changes from Release without committing
+          git commit -am "Merge changes from Release into development"
           git push origin development
 
-      - name: Apply changes and push to test_repo
+      - name: Apply changes to test_repo
         run: |
-          cd ../test_repo
           git checkout test_repo
-          cp -r ../databricks/* .  # Copy the changes from source repository
-          git add .
-          git commit -m "Copy changes from Release"
+          git merge Release --no-commit  # Merge changes from Release without committing
+          git commit -am "Merge changes from Release into test_repo"
           git push origin test_repo
 
 
