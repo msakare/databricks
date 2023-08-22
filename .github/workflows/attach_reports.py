@@ -1,23 +1,25 @@
 import sys
+import os
 from github import Github
 
 def attach_reports(token, pr_number, comment):
     g = Github(token)
-    repo = g.get_repo("msakare/databricks")  
+    repo = g.get_repo("msakare/databricks")  # Replace with your repository info
 
     pull_request = repo.get_pull(pr_number)
     pull_request.create_issue_comment(comment)
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python attach_reports.py <PAT_TOKEN> <pr_number> <comment>")
+        print("Usage: python attach_reports.py <PAT_TOKEN> <comment> <pr_number>")
         sys.exit(1)
 
     pat_token = sys.argv[1]
-    pr_number = int(sys.argv[2])
-    comment = sys.argv[3]
+    comment = sys.argv[2]
+    pr_number = os.getenv("GITHUB_REF").split("/")[-1]  # Fetch the pull request number from GITHUB_REF
 
     attach_reports(pat_token, pr_number, comment)
+
 
 # import os
 # from github import Github
