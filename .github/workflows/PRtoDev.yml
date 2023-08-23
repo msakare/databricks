@@ -1,4 +1,4 @@
-name: Copy To Branches
+name: Copy Changes to Dev
 
 on:
   push:
@@ -10,29 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source repository
+      - name: Checkout release branch
         uses: actions/checkout@v2
         with:
-          ref: Release  # Specify the branch to copy from
-          path: source  # Specify a path to copy changes from
+          ref: Release
 
-      - name: Apply changes to development
+      - name: Create new dev branch
         run: |
-          cp -r source/. .
-          git add .
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git commit -m "Merge changes from Release into development"
-          git push origin development
+          git checkout -b dev
+          git push origin dev
 
-      - name: Apply changes to test_repo
-        run: |
-          cp -r source/. .
-          git add .
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git commit -m "Merge changes from Release into test_repo"
-          git push origin test_repo
 
 
 
