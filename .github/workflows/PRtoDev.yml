@@ -12,20 +12,24 @@ jobs:
     steps:
       - name: Checkout source repository
         uses: actions/checkout@v2
+        with:
+          ref: Release  # Specify the branch to copy from
+          path: source  # Specify a path to copy changes from
 
       - name: Apply changes to development
         run: |
-          git checkout dev
-          git merge Release --no-commit  # Merge changes from Release without committing
-          git commit -am "Merge changes from Release into development"
-          git push origin dev
+          cp -r source/. .
+          git add .
+          git commit -m "Merge changes from Release into development"
+          git push origin development
 
       - name: Apply changes to test_repo
         run: |
-          git checkout test_repo
-          git merge Release --no-commit  # Merge changes from Release without committing
-          git commit -am "Merge changes from Release into test_repo"
+          cp -r source/. .
+          git add .
+          git commit -m "Merge changes from Release into test_repo"
           git push origin test_repo
+
 
 
 
