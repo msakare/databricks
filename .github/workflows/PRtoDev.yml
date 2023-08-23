@@ -19,13 +19,13 @@ jobs:
           git config --global user.email "actions@github.com"
 
           # Ensure the development branch is up-to-date
-          git fetch origin development
+          git fetch origin dev
 
           # Merge Release into Development
-          git checkout development
+          git checkout dev
           git merge origin/Release --no-ff --no-commit
           git commit -m "Merge Release into Development" --allow-empty
-          git push origin development
+          git push origin dev
 
           # Switch back to the original branch
           git checkout ${{ github.ref }}
