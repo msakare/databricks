@@ -15,10 +15,10 @@ jobs:
 
       - name: Apply changes to development
         run: |
-          git checkout development
+          git checkout dev
           git merge Release --no-commit  # Merge changes from Release without committing
           git commit -am "Merge changes from Release into development"
-          git push origin development
+          git push origin dev
 
       - name: Apply changes to test_repo
         run: |
