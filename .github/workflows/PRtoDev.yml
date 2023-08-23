@@ -20,6 +20,8 @@ jobs:
         run: |
           cp -r source/. .
           git add .
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
           git commit -m "Merge changes from Release into development"
           git push origin development
 
@@ -27,8 +29,11 @@ jobs:
         run: |
           cp -r source/. .
           git add .
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
           git commit -m "Merge changes from Release into test_repo"
           git push origin test_repo
+
 
 
 
