@@ -1,27 +1,57 @@
-name: Copy To dev Branches
+name: Copy To Branches
+
 on:
   push:
     branches:
       - Release
-#testrun
-jobs:
-  copy-commit:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
 
-      - name: Copy Commit
-        uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}
-        with:
-          # include: 'hello,world?'
-          # exclude: '"world,"'
-          destination: 'msakare/databricks'
-          branch: 'dev'
+jobs:
+  copy-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v2
+
+      - name: Apply changes to development
+        run: |
+          git checkout development
+          git merge Release --no-commit  # Merge changes from Release without committing
+          git commit -am "Merge changes from Release into development"
+          git push origin development
+
+      - name: Apply changes to test_repo
+        run: |
+          git checkout test_repo
+          git merge Release --no-commit  # Merge changes from Release without committing
+          git commit -am "Merge changes from Release into test_repo"
+          git push origin test_repo
+
+
+# name: Copy To dev Branches
+# on:
+#   push:
+#     branches:
+#       - Release
+# #testrun
+# jobs:
+#   copy-commit:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 2
+
+#       - name: Copy Commit
+#         uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
+#         env:
+#           PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}
+#         with:
+#           # include: 'hello,world?'
+#           # exclude: '"world,"'
+#           destination: 'msakare/databricks'
+#           branch: 'dev'
 
       # - name: Copy Commit
       #   uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
