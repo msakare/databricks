@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout release branch
+      - name: Checkout
         uses: actions/checkout@v2
+      
+      - name: Copy Commit
+        uses: jeffreyc/copy-commit-to-another-repo@v1.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT_TOKEN }}  # Reference the PAT secret
         with:
-          ref: Release
+          destination: 'msakare/databricks'
+          branch: 'development'
 
-      - name: Create new dev branch
-        run: |
-          git checkout -b dev
-          git push origin dev
 
 
 
